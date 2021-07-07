@@ -3,8 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+<!--    bean =   Hello hello = new Hello();-->
     <bean id="hello" class="com.fzy.entity.Hello">
         <property name="name" value="test" />
+    </bean>
+    <bean id="sysUserDaoImpl" class="com.fzy.dao.SysUserDaoImpl"/>
+    <bean id="sysUserServiceImpl" class="com.fzy.service.SysUserServiceImpl">
+        <property name="sysUserDao" ref="sysUserDaoImpl"/>
     </bean>
 </beans>
