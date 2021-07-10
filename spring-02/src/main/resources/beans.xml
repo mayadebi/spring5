@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="teacher" class="com.fzy.entity.Teacher">
+        <property name="pkid" value="1"/>
+        <property name="name" value="teacher"/>
+    </bean>
+    <bean id="student" class="com.fzy.entity.Student">
+        <property name="pkid" value="1"/>
+        <property name="name" value="student"/>
+        <property name="teacher" ref="teacher"/>
+        <property name="properties">
+            <props>
+                <prop key="administrator">[emailprotected]</prop>
+                <prop key="support">[emailprotected]</prop>
+                <prop key="development">[emailprotected]</prop>
+            </props>
+        </property>
+        <property name="stulist">
+            <list>
+                <value>list1</value>
+                <ref bean="teacher" />
+            </list>
+        </property>
+        <property name="stumap">
+            <map>
+                <entry key="map1" value="map1"/>
+                <entry key ="map2" value-ref="teacher"/>
+            </map>
+        </property>
+        <property name="stuset">
+            <set>
+                <value>set1</value>
+                <ref bean="teacher" />
+            </set>
+        </property>
+    </bean>
+</beans>
