@@ -19,12 +19,23 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd
     -->
 <!--    配置aop-->
+<!--    <aop:config>-->
+<!--&lt;!&ndash;        首先需要一个切入点 id随便  expression表达式  execution(*可以是任意的东西 要执行的位置  .*()是所有方法  （..）任意参数 &ndash;&gt;-->
+<!--        <aop:pointcut id="pointcut" expression="execution(* com.fzy.service.SysUserServiceImpl.*(..))"/>-->
+<!--&lt;!&ndash;        执行环绕增加 把log切入&ndash;&gt;-->
+<!--        <aop:advisor advice-ref="log" pointcut-ref="pointcut"/>-->
+<!--    </aop:config>-->
+    <!--    配置aop方式二，使用自定义类，不实现接口 比方法一简单，但是无法获取方法参数，功能没有方式一强-->
     <aop:config>
-<!--        首先需要一个切入点 id随便  expression表达式  execution(*可以是任意的东西 要执行的位置  .*()是所有方法  （..）任意参数 -->
-        <aop:pointcut id="pointcut" expression="execution(* com.fzy.service.SysUserServiceImpl.*(..))"/>
-<!--        执行环绕增加 把log切入-->
-        <aop:advisor advice-ref="log" pointcut-ref="pointcut"/>
+<!--      自定义切面-->
+        <aop:aspect ref="diyLog">
+<!--            切入点-->
+<!--            execution 第一个参数表示返回类型，*代表所有 第二个参数包名可以在这里结束-->
+            <aop:pointcut id="point" expression="execution(* com.fzy.service.*.*(..))"/>
+<!--            通知 在前后执行-->
+            <aop:before method="kaishi" pointcut-ref="point"/>
+            <aop:after method="jieshu" pointcut-ref="point"/>
+        </aop:aspect>
     </aop:config>
-
 
 </beans>
