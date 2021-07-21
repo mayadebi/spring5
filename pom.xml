@@ -16,6 +16,7 @@
         <module>spring-05</module>
         <module>spring-06</module>
         <module>spring-07</module>
+        <module>spring-08</module>
     </modules>
 
     <properties>
@@ -35,6 +36,15 @@
             <artifactId>spring-jdbc</artifactId>
             <version>5.3.8</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+<!--        aop需要使用的包-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.4</version>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
