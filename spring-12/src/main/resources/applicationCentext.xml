@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+         https://www.springframework.org/schema/context/spring-context.xsd">
+<!--    引入外部properties-->
+    <context:property-placeholder location="application.properties"/>
+    <!--    首先将连接数据库交给spring-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${driverClassName}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${user}" />
+        <property name="password" value="${password}" />
+    </bean>
+
+
+    <!--  SqlSessionFactoryBeans=是spring用来和mybatis对接的类 spring 来创建SqlSessionFactory -->
+    <bean  class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!--        把mybatis的配置添加到spring-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- 把mybatis的xml文件交给spring扫描  -->
+        <property name="mapperLocations" value="classpath:com/**/dao/*.xml"/>
+    </bean>
+
+<!--    扫描mapper接口(自动创建实现类，存入spring)-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<!--        扫描mapper接口-->
+        <property name="basePackage" value="com.**.dao"/>
+    </bean>
+
+
+    <!--    指定要扫描的包这个包下的注解就会生肖-->
+    <context:component-scan base-package="com.**"/>
+    <!--    表示启用注解-->
+    <context:annotation-config/>
+
+
+</beans>
