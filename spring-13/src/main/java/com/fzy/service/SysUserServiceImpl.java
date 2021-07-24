@@ -12,7 +12,7 @@ import java.util.List;
 public class SysUserServiceImpl implements SysUserService{
     @Autowired
     private SysUserMapper sysUserMapper;
-//    @Transactional
+    @Transactional
     public void shiwu() {
         SysUser sysUser = new SysUser(0,"ffff","kkkkk");
         sysUserMapper.addUser(sysUser);

@@ -45,24 +45,24 @@
     </bean>
 
     <!-- 配置事务传播特性 -->
-    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="*" propagation="REQUIRED"/>
-        </tx:attributes>
-    </tx:advice>
+<!--    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">-->
+<!--        <tx:attributes>-->
+<!--            <tx:method name="*" propagation="REQUIRED"/>-->
+<!--        </tx:attributes>-->
+<!--    </tx:advice>-->
 
-    <!-- 配置哪些类的哪些方法参与事务 -->
-    <!-- 我们定义一个切面，它匹配SysUserService接口定义的所有操作 -->
-    <aop:config>
-        <!-- <aop:pointcut/>元素定义AspectJ的切面表示法，这里是表示com.fzy.service.SysUserService包下的任意方法。 -->
-        <aop:pointcut id="pointcut" expression="execution(* com..*.*(..))"/>
-        <!-- 然后我们用一个通知器：<aop:advisor/>把这个切面和tx:advice绑定在一起，表示当这个切面：SysUserService执行时tx:advice定义的通知逻辑将被执行 -->
-        <aop:advisor advice-ref="transactionAdvice" pointcut-ref="pointcut"/>
-    </aop:config>
+<!--    &lt;!&ndash; 配置哪些类的哪些方法参与事务 &ndash;&gt;-->
+<!--    &lt;!&ndash; 我们定义一个切面，它匹配SysUserService接口定义的所有操作 &ndash;&gt;-->
+<!--    <aop:config>-->
+<!--        &lt;!&ndash; <aop:pointcut/>元素定义AspectJ的切面表示法，这里是表示com.fzy.service.SysUserService包下的任意方法。 &ndash;&gt;-->
+<!--        <aop:pointcut id="pointcut" expression="execution(* com..*.*(..))"/>-->
+<!--        &lt;!&ndash; 然后我们用一个通知器：<aop:advisor/>把这个切面和tx:advice绑定在一起，表示当这个切面：SysUserService执行时tx:advice定义的通知逻辑将被执行 &ndash;&gt;-->
+<!--        <aop:advisor advice-ref="transactionAdvice" pointcut-ref="pointcut"/>-->
+<!--    </aop:config>-->
 
 
     <!--使用注释事务 -->
-<!--    <tx:annotation-driven transaction-manager="transactionManager" />-->
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
 
 </beans>
