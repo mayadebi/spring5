@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd"
+>
+    <!--    指定要扫描的包这个包下的注解就会生肖-->
+    <context:component-scan base-package="com.**"/>
+    <!--    扫描mapper接口(自动创建实现类，存入spring)-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--        扫描mapper接口-->
+        <property name="basePackage" value="com.**.dao"/>
+    </bean>
+    <!--  SqlSessionFactoryBeans=是spring用来和mybatis对接的类 spring 来创建SqlSessionFactory -->
+    <bean  class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!--        把mybatis的配置添加到spring-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- 把mybatis的xml文件交给spring扫描  -->
+        <property name="mapperLocations" value="classpath:com/**/dao/*.xml"/>
+    </bean>
+    <!--    引入外部properties-->
+    <context:property-placeholder location="application.properties"/>
+    <!--    首先将连接数据库交给spring-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${driverClassName}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${user}" />
+        <property name="password" value="${password}" />
+    </bean>
+
+    <!-- 定义事务管理器 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 配置事务传播特性 -->
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置哪些类的哪些方法参与事务 -->
+    <!-- 我们定义一个切面，它匹配SysUserService接口定义的所有操作 -->
+    <aop:config>
+        <!-- <aop:pointcut/>元素定义AspectJ的切面表示法，这里是表示com.fzy.service.SysUserService包下的任意方法。 -->
+        <aop:pointcut id="pointcut" expression="execution(* com..*.*(..))"/>
+        <!-- 然后我们用一个通知器：<aop:advisor/>把这个切面和tx:advice绑定在一起，表示当这个切面：SysUserService执行时tx:advice定义的通知逻辑将被执行 -->
+        <aop:advisor advice-ref="transactionAdvice" pointcut-ref="pointcut"/>
+    </aop:config>
+
+
+    <!--使用注释事务 -->
+<!--    <tx:annotation-driven transaction-manager="transactionManager" />-->
+
+
+</beans>
